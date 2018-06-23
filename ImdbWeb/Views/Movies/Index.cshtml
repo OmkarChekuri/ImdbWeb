@@ -1,0 +1,41 @@
+﻿@model ImdbWeb.Models.Movies.Index
+@using ImdbWeb.Domain.Models
+<table style="width:100%" class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Movie Name</th>
+        <th>Release Year</th>
+        <th>Genre</th>
+        <th>Content Type</th>
+        <th>Length</th>
+        <th> </th>
+
+    </tr>
+    </thead>
+
+    <tbody>
+        @foreach (Movie movie in Model.Movies)
+        {
+        <tr>
+            <td> @movie.Id </td>
+            <td> @movie.movieName </td>
+            <td> @movie.Year </td>
+            <td> @movie.Genre </td>
+            <td> @movie.ContentRating </td>
+            <td> @movie.LengthInMin Mins </td>
+            <td>
+                <a asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary"> View Details </a>
+            </td>
+
+
+        </tr>
+
+
+        }
+        </tbody>
+
+</table>
+
+@{
+}
