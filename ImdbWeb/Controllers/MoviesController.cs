@@ -12,12 +12,24 @@ namespace ImdbWeb.Controllers
     public class MoviesController : Controller
     {
 
-        private readonly ISession _session;
+        //private readonly ISession _session;
 
-        public MoviesController(ISession session)
+        //public MoviesController(ISession session)
+        //{
+        //    _session = session;
+        //}
+
+
+        private readonly NHibernate.ISession _session;
+       
+
+        public MoviesController(NHibernate.ISession session)
         {
             _session = session;
+           
         }
+
+
 
         public IActionResult Index()
         {
@@ -32,6 +44,32 @@ namespace ImdbWeb.Controllers
             Movie model = _session.Get<Movie>(id);
             return View(model);
         }
+
+        [HttpGet("/Edit")]
+        public IActionResult Edit(int id)
+        {
+           
+            Movie mID = _session.Get<Movie>(id);
+            
+
+
+            return View(mID);
+        }
+
+      
+        [HttpPost]
+        public IActionResult Delete(int Id)
+        {
+            using (var txn = _session.BeginTransaction())
+            {
+                Movie mID = _session.Get<Movie>(Id);
+                _session.Delete(mID);
+                _session.Flush();
+                txn.Commit();
+            }
+            return RedirectToAction("Index");
+        }
+
 
 
     }

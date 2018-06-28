@@ -15,7 +15,7 @@ using SimpleInjector.Integration.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.AspNetCore.Routing;
 
 namespace ImdbWeb
 {
@@ -40,7 +40,8 @@ namespace ImdbWeb
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<IViewComponentActivator>(new SimpleInjectorViewComponentActivator(container));
             services.UseSimpleInjectorAspNetRequestScoping(container);
-
+            services.AddRouting();
+            
         }
 
 
@@ -58,21 +59,27 @@ namespace ImdbWeb
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            var SessionFactory = Fluently.Configure().Database(MsSqlConfiguration.MsSql2012.ConnectionString(Configuration["Imdb"])).Mappings(m => m.FluentMappings.AddFromAssemblyOf<Startup>()).BuildSessionFactory();
+            var SessionFactory = Fluently.Configure()
+                .Database(MsSqlConfiguration.MsSql2012.ConnectionString(Configuration["Imdb"]))
+                .Mappings(m => m.FluentMappings.AddFromAssemblyOf<Startup>()).BuildSessionFactory();
+
             container.RegisterInstance(typeof(ISessionFactory), SessionFactory);
 
             // Register how to create an ISession using an ISessionFactory.       
             container.Register(() => container.GetService<ISessionFactory>().OpenSession(), Lifestyle.Scoped);
 
 
+           
             app.UseStaticFiles();
+
+            
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
 
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Movies}/{action=Index}/{id?}");
 
             });
         }

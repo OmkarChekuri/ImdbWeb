@@ -23,6 +23,7 @@ namespace ImdbWeb
             //return new WebHost.CreateDefaultBuilder(args)
             return new WebHostBuilder()
                 .UseKestrel()
+                //.UseUrls("http://localhost:8081")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {
