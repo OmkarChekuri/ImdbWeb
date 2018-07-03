@@ -66,10 +66,9 @@ namespace ImdbWeb
             container.RegisterInstance(typeof(ISessionFactory), SessionFactory);
 
             // Register how to create an ISession using an ISessionFactory.       
-            container.Register(() => container.GetService<ISessionFactory>().OpenSession(), Lifestyle.Scoped);
+            container.Register(typeof(NHibernate.ISession), () => container.GetService<ISessionFactory>().OpenSession(), Lifestyle.Scoped);
 
-
-           
+                           
             app.UseStaticFiles();
 
             
@@ -79,9 +78,10 @@ namespace ImdbWeb
                 routes.MapRoute(
 
                     name: "default",
-                    template: "{controller=Movies}/{action=Index}/{id?}");
+                    //template: "{controller=Movies}/{action=Index}/{id?}");
+                    template: "{controller=Users}/{action=Index}/{id?}");
 
-            });
+        });
         }
     }
 }

@@ -4,17 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using ImdbWeb.Domain.Models;
 
-namespace ImdbWeb.Models.Movies
+namespace ImdbWeb.Models.Users
 {
     public class Index
     {
-        public IEnumerable<Movie> BananaMovies
+        public IEnumerable<User> BananaUsers
         {
             get;
             set;
         }
-
-
     }
 }
-

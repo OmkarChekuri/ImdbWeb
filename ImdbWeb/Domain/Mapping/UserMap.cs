@@ -18,9 +18,11 @@ namespace ImdbWeb.Domain.Mapping
             Id(u => u.Id).Not.Nullable();
             Map(u => u.Username).Not.Nullable();
             Map(u => u.Password).Not.Nullable();
-            Map(u => u.Address).Not.Nullable();
-
-
+            Map(u => u.Email).Not.Nullable();
+            Map(u => u.Bio).Nullable();
+            Map(u => u.DOB).Not.Nullable();
+            Map(u => u.Country).CustomType<Ctry>();
+            
         }
 
 

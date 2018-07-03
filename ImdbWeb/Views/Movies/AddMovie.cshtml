@@ -1,17 +1,21 @@
-﻿@model ImdbWeb.Models.Movies.Edit;
+﻿@model ImdbWeb.Models.Movies.AddMovie
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "AddMovie";
 }
 
-<h2>Edit</h2>
+<h2>AddMovie</h2>
 
-<h4>Movie</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="AddMovie">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @*<div class="form-group">
+            <label asp-for="Id" class="control-label"></label>
+            <input asp-for="Id" class="form-control" />
+            <span asp-validation-for="Id" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <label asp-for="MovieName" class="control-label"></label>
                 <input asp-for="MovieName" class="form-control" />
@@ -24,7 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Summary" class="control-label"></label>
-                <input asp-for="Summary" class="form-control" />
+                <textarea asp-for="Summary" class="form-control"></textarea>
                 <span asp-validation-for="Summary" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -34,27 +38,28 @@
             </div>
             <div class="form-group">
                 <label asp-for="Genre" class="control-label"></label>
-                <select asp-for="Genre" asp-items="Model.Languages" class="form-control" ></select>
+                <select asp-for="Genre" asp-items="Model.Genres" class="form-control"></select>
                 <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
+
+
             <div class="form-group">
                 <label asp-for="ContentRating" class="control-label"></label>
-                <select asp-for="ContentRating" asp-items="Model.Ratings"   class="form-control"></select>
+                <select asp-for="ContentRating" asp-items="Model.Ratings" class="form-control"></select>
                 <span asp-validation-for="ContentRating" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Language" class="control-label"></label>
-                <select asp-for="ContentRating" asp-items="Model.Languages" class="form-control"></select>
-                <span asp-validation-for="ContentRating" class="text-danger"></span>
+                <select asp-for="Language" asp-items="Model.Languages" class="form-control"></select>
+                <span asp-validation-for="Language" class="text-danger"></span>
             </div>
-
 
             <div class="form-group">
-                            
 
                 <input type="hidden" asp-for="Id" />
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
+
         </form>
     </div>
 </div>

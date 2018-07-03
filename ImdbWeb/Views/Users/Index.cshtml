@@ -1,0 +1,59 @@
+﻿
+@using ImdbWeb.Domain.Models
+
+<td>
+    <a asp-action="AddUser" asp-controller="Users" class="btn btn-primary">Add User</a>
+</td>
+
+
+
+<table style="width:100%" class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>User Name</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Bio</th>
+            <th>DOB</th>
+            <th>Country</th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+
+
+
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (User user in Model.BananaUsers)
+        {
+            <tr>
+                <td> @user.Id </td>
+                <td> @user.Username </td>
+                <td> @user.Password </td>
+                <td> @user.Email</td>
+                <td> @user.Bio </td>
+                <td> @user.DOB </td>
+                <td> @user.Country </td>
+                <td>
+                    <a method="post" asp-controller="Users" asp-action="Details" asp-route-id="@user.Id" class="btn btn-primary"> View Details </a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Users" asp-route-id="@user.Id" class="btn btn-primary">Edit Details</a>
+                </td>
+                <td>
+                    <form asp-action="Delete" asp-controller="Users" asp-route-id="@user.Id" method= "post">
+
+                            <input type="submit"  value="Delete" class="btn btn-primary">
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@{
+}
