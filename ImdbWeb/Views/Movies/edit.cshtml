@@ -1,4 +1,5 @@
 ﻿@model ImdbWeb.Models.Movies.Edit;
+@using ImdbWeb.Domain.Models
 
 @{
     ViewData["Title"] = "Edit";
@@ -34,30 +35,51 @@
             </div>
             <div class="form-group">
                 <label asp-for="Genre" class="control-label"></label>
-                <select asp-for="Genre" asp-items="Model.Languages" class="form-control" ></select>
+                <select asp-for="Genre" asp-items="Model.Languages" class="form-control"></select>
                 <span asp-validation-for="Genre" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="ContentRating" class="control-label"></label>
-                <select asp-for="ContentRating" asp-items="Model.Ratings"   class="form-control"></select>
+                <select asp-for="ContentRating" asp-items="Model.Ratings" class="form-control"></select>
                 <span asp-validation-for="ContentRating" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Language" class="control-label"></label>
-                <select asp-for="ContentRating" asp-items="Model.Languages" class="form-control"></select>
-                <span asp-validation-for="ContentRating" class="text-danger"></span>
+                <select asp-for="Language" asp-items="Model.Languages" class="form-control"></select>
+                <span asp-validation-for="Language" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rating" class="control-label"></label>
+                <input asp-for="Rating" class="form-control" />
+                <span asp-validation-for="Rating" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReviewText" class="control-label"></label>
+                <input asp-for="ReviewText" class="form-control" />
+                <span asp-validation-for="ReviewText" class="text-danger"></span>
             </div>
 
 
+
+
             <div class="form-group">
-                            
+
 
                 <input type="hidden" asp-for="Id" />
                 <input type="submit" value="Save" class="btn btn-default" />
             </div>
         </form>
+
     </div>
 </div>
+
+
+@*<td>
+    <form asp-action="ReviewDelete" asp-controller="Movies" asp-route-id="@Model.ReviewId" method="post">
+        <input type="submit" value="Delete Review" class="btn btn-primary">
+    </form>
+</td>*@
+
 
 <div>
     <a asp-action="Index">Back to List</a>

@@ -30,6 +30,7 @@ namespace ImdbWeb.Domain.Models
         public virtual MovieGenre Genre { get; set; }
         public virtual RatingType ContentRating { get; set; }
         public virtual MovieLanguage Language { get; set; }
+        public virtual IEnumerable < Review > Reviews { get; set; }
         public Movie(string newMovieName, int newLengthInMin, string newSummary, DateTime newYear, MovieGenre newGenre, RatingType newContentRating, MovieLanguage newLanguage)
         {
             MovieName   = newMovieName;

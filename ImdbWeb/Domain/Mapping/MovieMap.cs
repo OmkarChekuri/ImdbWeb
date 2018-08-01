@@ -22,7 +22,8 @@ namespace ImdbWeb.Domain.Mapping
             Map(u => u.Year).Not.Nullable();
             Map(u => u.Genre).CustomType<MovieGenre>();
             Map(u => u.ContentRating).CustomType<RatingType>();
-            Map(u => u.Language).CustomType<MovieLanguage>();          
+            Map(u => u.Language).CustomType<MovieLanguage>();
+            HasMany(u => u.Reviews).KeyColumn("MovieId");
         }
 
 

@@ -14,7 +14,17 @@ namespace ImdbWeb.Models.Movies
             set;
         }
 
+        public string UserName
+        {
+            get;
+            set;
+        }
 
+        public IEnumerable<Review> BananaReviews
+        {
+            get;
+            set;
+        }
     }
 }
 

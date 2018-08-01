@@ -10,8 +10,7 @@ namespace ImdbWeb.Models.Movies
 {
     public class AddMovie
     {
-        public int Id { get; set; }
-
+       
         [StringLength(50, MinimumLength = 1)]
         [Required]
         public string MovieName { get; set; }

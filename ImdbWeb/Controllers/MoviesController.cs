@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ImdbWeb.Domain.Models;
 using ImdbWeb.Models.Movies;
 using NHibernate;
+using ImdbWeb.Infrastructure;
+using System.Security.Claims;
 
 namespace ImdbWeb.Controllers
 {
@@ -14,17 +16,24 @@ namespace ImdbWeb.Controllers
 
         private readonly NHibernate.ISession _session;
        
+        private readonly ICurrentUserContext _context;
+        
 
-        public MoviesController(NHibernate.ISession session)
+        public MoviesController(NHibernate.ISession session,  ICurrentUserContext context)
         {
             _session = session;
+            _context = context;
         }
 
-        public IActionResult Index()
+        public IActionResult Index( )
         {
+
+
             Index Modell = new Index
             {
-                BananaMovies = _session.Query<Movie>()
+                BananaMovies = _session.Query<Movie>(),
+                UserName = _context.UserName
+
             };
 
             return View(Modell);
@@ -70,10 +79,23 @@ namespace ImdbWeb.Controllers
             return View(model);
         }
 
+        //Movie MovieName = _session.Get<Movie>(addReviewModel.MovieId);
+        //User UserName = _session.Get<User>(addReviewModel.UserId);
+        //string ReviewText = addReviewModel.ReviewText;
+        //int Rating = addReviewModel.Rating;
+        //Review newReview = new Review(UserName, MovieName, ReviewText, Rating);
+
+
         [HttpGet]
         public IActionResult Edit(int id)
         {
             Movie mID = _session.Get<Movie>(id);
+            Review review = mID.Reviews.SingleOrDefault(r => r.User.Id  == _context.UserId);
+
+            int rating = review?.Rating ?? 0;
+            string reviewText = review?.ReviewText ?? "Not Yet Reviewed";
+
+               // Get<Review>().Where(x =>x.MovieId == id).FirstOrDefault;
             Edit model = new Edit
             {
                 Id = mID.Id,
@@ -84,6 +106,8 @@ namespace ImdbWeb.Controllers
                 Genre = mID.Genre,
                 ContentRating = mID.ContentRating,
                 Language = mID.Language,
+                Rating = rating,
+                ReviewText = reviewText,
             };
 
                        
@@ -94,7 +118,7 @@ namespace ImdbWeb.Controllers
         public IActionResult Edit(Edit mdl)
          {
             Movie mID = _session.Get<Movie>(mdl.Id);
-
+            Review review = mID.Reviews.SingleOrDefault(r => r.User.Id == _context.UserId);
             using (var txn = _session.BeginTransaction())
             {
                 mID.Id = mdl.Id;
@@ -105,7 +129,10 @@ namespace ImdbWeb.Controllers
                 mID.Genre = mdl.Genre;
                 mID.ContentRating = mdl.ContentRating;
                 mID.Language = mdl.Language;
-                _session.SaveOrUpdate(mID);
+                review.Rating = mdl.Rating;
+                review.ReviewText = mdl.ReviewText;
+
+                //_session.SaveOrUpdate(mID);
                 _session.Flush();
                 txn.Commit();
             }
@@ -127,6 +154,57 @@ namespace ImdbWeb.Controllers
         }
 
 
+        [HttpPost, ActionName("ReviewDelete")]
+        public IActionResult ReviewDelete(int Id)
+        {
+            using (var txn = _session.BeginTransaction())
+            {
+                Review rID = _session.Get<Review>(Id);
+                _session.Delete(rID);
+                _session.Flush();
+                txn.Commit();
+            }
+            return RedirectToAction("Index");
+        }
+
+
+
+        [HttpGet]
+        public IActionResult AddReview(int Id)
+        {
+            Movie mID = _session.Get<Movie>(Id);
+            AddReview addReviewModel = new AddReview
+            {
+               UserId = _context.UserId,
+               MovieId = mID.Id,
+               MovieName = mID.MovieName,
+            };
+            return View(addReviewModel);
+        }
+
+
+        [HttpPost, ActionName("AddReview")]
+        public IActionResult AddReview(AddReview addReviewModel)
+        {
+            
+            using (var txn = _session.BeginTransaction())
+            {
+
+                //Movie MovieName = addReviewModel.Movie;
+                //User UserName = addReviewModel.User;
+                Movie MovieName = _session.Get<Movie>(addReviewModel.MovieId);
+                User UserName = _session.Get<User>(addReviewModel.UserId);
+                string ReviewText = addReviewModel.ReviewText;
+                int Rating = addReviewModel.Rating;
+                Review newReview = new Review(UserName, MovieName, ReviewText, Rating);
+                _session.Save(newReview);
+                txn.Commit();
+            }
+            return RedirectToAction("Index");
+
+        }
+
+          
 
     }
 }

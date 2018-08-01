@@ -1,5 +1,10 @@
-﻿@*@model ImdbWeb.Models.Movies.Index*@
+﻿@model ImdbWeb.Models.Movies.Index
 @using ImdbWeb.Domain.Models
+
+<h1>
+    Hello @Model.UserName
+</h1>
+
 
 <td>
     <a asp-action="AddMovie" asp-controller="Movies" class="btn btn-primary">Add Movie</a>
@@ -21,8 +26,8 @@
             <th> </th>
             <th> </th>
             <th> </th>
-
-
+            <th> </th>
+            <th> </th>
 
         </tr>
     </thead>
@@ -43,19 +48,29 @@
                 <a method="post" asp-controller="Movies" asp-action="Details" asp-route-id="@movie.Id" class="btn btn-primary"> View Details </a>
             </td>
             <td>
-            <a asp-action="Edit" asp-controller="Movies" asp-route-id="@movie.Id" class="btn btn-primary">Edit Details</a>
-        </td>
+                <a asp-action="Edit" asp-controller="Movies" asp-route-id="@movie.Id" class="btn btn-primary">Edit Details</a>
+            </td>
 
-        <td>
-            <form asp-action="Delete" asp-controller="Movies" asp-route-id="@movie.Id" method="post">
-                <input type="submit"  value="Delete" class="btn btn-primary">
-            </form>
-        </td>
+            <td>
+                <form asp-action="Delete" asp-controller="Movies" asp-route-id="@movie.Id" method="post">
+                    <input type="submit" value="Delete" class="btn btn-primary">
+                </form>
+            </td>
 
+
+            <td>
+                <a asp-action="AddReview" asp-controller="Movies" asp-route-id="@movie.Id" class="btn btn-primary">Add Review</a>
+            </td>
+
+            
 
         </tr>
         }
         </tbody>
+
+
+
+
 
 </table>
 

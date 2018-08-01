@@ -3,3 +3,6 @@
 ImdbWeb/bin/*
 ImdbWeb/obj/*
 packages/*
+FluentMigrations/obj/*
+FluentMigrations/bin/*
+/Migrate_Up.bat

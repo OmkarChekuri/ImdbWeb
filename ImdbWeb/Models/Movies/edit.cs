@@ -86,5 +86,13 @@ namespace ImdbWeb.Models.Movies
             }
         }
 
+        
+        public int Rating { get; set; }
+
+        public int ReviewId { get; set; }
+
+        
+        public string ReviewText { get; set; }
+
     }
 }
